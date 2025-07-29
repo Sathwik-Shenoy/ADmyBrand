@@ -21,6 +21,26 @@ export interface MetricCard {
   progress: number; // 0-100 for circular progress
 }
 
+export interface RevenueData {
+  date: string;
+  revenue: number;
+  previousRevenue: number;
+}
+
+export interface CampaignData {
+  name: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  cost: number;
+}
+
+export interface TrafficSource {
+  name: string;
+  value: number;
+  color: string;
+}
+
 export interface NavItem {
   title: string;
   href: string;

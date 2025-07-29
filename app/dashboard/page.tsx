@@ -1,6 +1,16 @@
-import { mockDashboardStats, mockUsers, mockMetricCards } from '@/data/mockData';
+import { 
+  mockDashboardStats, 
+  mockUsers, 
+  mockMetricCards,
+  mockRevenueData,
+  mockCampaignData,
+  mockTrafficSources
+} from '@/data/mockData';
 import { DashboardHeader, DashboardStatsCard } from '@/components/dashboard/dashboard-cards';
 import { MetricCardsGrid } from '@/components/dashboard/MetricCard';
+import { LineChart } from '@/components/dashboard/LineChart';
+import { BarChart } from '@/components/dashboard/BarChart';
+import { DonutChart } from '@/components/dashboard/DonutChart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -12,6 +22,13 @@ export default function DashboardPage() {
         
         {/* Animated Metric Cards */}
         <MetricCardsGrid metrics={mockMetricCards} />
+        
+        {/* Analytics Charts */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <LineChart data={mockRevenueData} className="lg:col-span-2" />
+          <BarChart data={mockCampaignData} />
+          <DonutChart data={mockTrafficSources} />
+        </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
 
