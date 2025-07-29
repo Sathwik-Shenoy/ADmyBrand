@@ -36,8 +36,8 @@ export function MetricCard({ title, value, delta, progress, className, style }: 
   return (
     <Card 
       className={cn(
-        "relative overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-xl group cursor-pointer border-border/50 backdrop-blur-sm",
-        "hover:border-primary/20 hover:bg-card/80",
+        "relative overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl group cursor-pointer border-border/50 backdrop-blur-sm",
+        "hover:border-primary/30 hover:bg-card/90",
         className
       )}
       style={style}
@@ -55,14 +55,14 @@ export function MetricCard({ title, value, delta, progress, className, style }: 
               <div className="flex items-center space-x-2">
                 <div 
                   className={cn(
-                    "flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-semibold transition-colors",
+                    "flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-semibold transition-all duration-200",
                     isPositive 
                       ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" 
                       : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                   )}
                 >
                   <span className={cn(
-                    "text-sm transition-transform group-hover:scale-110",
+                    "text-sm transition-transform duration-200 group-hover:scale-125",
                     isPositive ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
                   )}>
                     {isPositive ? "▲" : "▼"}
@@ -131,8 +131,8 @@ export function MetricCard({ title, value, delta, progress, className, style }: 
         
         {/* Hover effect overlay */}
         <div className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
-          "bg-gradient-to-br from-primary/5 via-transparent to-primary/10"
+          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300",
+          "bg-gradient-to-br from-primary/8 via-transparent to-primary/12"
         )} />
         
         {/* Subtle background pattern */}
@@ -159,7 +159,7 @@ export function MetricCardsGrid({ metrics, className }: MetricCardsGridProps) {
   return (
     <div 
       className={cn(
-        "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+        "grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
         className
       )}
     >
