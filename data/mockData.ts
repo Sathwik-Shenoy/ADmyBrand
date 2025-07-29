@@ -1,17 +1,4 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user' | 'manager';
-  avatar?: string;
-}
-
-export interface DashboardStats {
-  totalUsers: number;
-  activeUsers: number;
-  revenue: number;
-  growth: number;
-}
+import { User, DashboardStats, MetricCard } from '@/types';
 
 export const mockUsers: User[] = [
   {
@@ -43,3 +30,34 @@ export const mockDashboardStats: DashboardStats = {
   revenue: 52000,
   growth: 12.5,
 };
+
+export const mockMetricCards: MetricCard[] = [
+  {
+    id: '1',
+    title: 'Total Revenue',
+    value: '$54,239',
+    delta: 12.5,
+    progress: 75,
+  },
+  {
+    id: '2',
+    title: 'Active Users',
+    value: '2,834',
+    delta: -2.3,
+    progress: 60,
+  },
+  {
+    id: '3',
+    title: 'Conversion Rate',
+    value: '3.42%',
+    delta: 8.7,
+    progress: 82,
+  },
+  {
+    id: '4',
+    title: 'Avg. Order Value',
+    value: '$89.32',
+    delta: -5.1,
+    progress: 45,
+  },
+];

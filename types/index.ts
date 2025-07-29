@@ -13,6 +13,14 @@ export interface DashboardStats {
   growth: number;
 }
 
+export interface MetricCard {
+  id: string;
+  title: string;
+  value: string;
+  delta: number;
+  progress: number; // 0-100 for circular progress
+}
+
 export interface NavItem {
   title: string;
   href: string;

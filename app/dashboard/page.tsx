@@ -1,5 +1,6 @@
-import { mockDashboardStats, mockUsers } from '@/data/mockData';
+import { mockDashboardStats, mockUsers, mockMetricCards } from '@/data/mockData';
 import { DashboardHeader, DashboardStatsCard } from '@/components/dashboard/dashboard-cards';
+import { MetricCardsGrid } from '@/components/dashboard/MetricCard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -8,6 +9,10 @@ export default function DashboardPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="space-y-8">
         <DashboardHeader />
+        
+        {/* Animated Metric Cards */}
+        <MetricCardsGrid metrics={mockMetricCards} />
+        
         <DashboardStatsCard stats={mockDashboardStats} />
 
         {/* Users Table */}
