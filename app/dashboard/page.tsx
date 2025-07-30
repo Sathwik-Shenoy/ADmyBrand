@@ -4,13 +4,15 @@ import {
   mockMetricCards,
   mockRevenueData,
   mockCampaignData,
-  mockTrafficSources
+  mockTrafficSources,
+  mockCampaignTableData
 } from '@/data/mockData';
 import { DashboardHeader, DashboardStatsCard } from '@/components/dashboard/dashboard-cards';
 import { MetricCardsGrid } from '@/components/dashboard/MetricCard';
 import { LineChart } from '@/components/dashboard/LineChart';
 import { BarChart } from '@/components/dashboard/BarChart';
 import { DonutChart } from '@/components/dashboard/DonutChart';
+import { CampaignDataTable } from '@/components/dashboard/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -31,6 +33,9 @@ export default function DashboardPage() {
         </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
+
+        {/* Campaign Data Table */}
+        <CampaignDataTable data={mockCampaignTableData} />
 
         {/* Users Table */}
         <Card>

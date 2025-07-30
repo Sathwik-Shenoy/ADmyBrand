@@ -1,4 +1,4 @@
-import { User, DashboardStats, MetricCard, RevenueData, CampaignData, TrafficSource } from '@/types';
+import { User, DashboardStats, MetricCard, RevenueData, CampaignData, TrafficSource, CampaignTableRow } from '@/types';
 
 export const mockUsers: User[] = [
   {
@@ -140,4 +140,127 @@ export const mockTrafficSources: TrafficSource[] = [
   { name: 'Social Media', value: 18, color: '#f59e0b' },
   { name: 'Email Marketing', value: 8, color: '#ef4444' },
   { name: 'Paid Ads', value: 4, color: '#8b5cf6' },
+];
+
+export const mockCampaignTableData: CampaignTableRow[] = [
+  {
+    id: '1',
+    campaign: 'Summer Sale 2024',
+    status: 'Active',
+    clicks: 12450,
+    cost: 2850,
+    roi: 320.5,
+  },
+  {
+    id: '2',
+    campaign: 'Black Friday Campaign',
+    status: 'Active',
+    clicks: 8920,
+    cost: 1950,
+    roi: 280.3,
+  },
+  {
+    id: '3',
+    campaign: 'Brand Awareness Q1',
+    status: 'Paused',
+    clicks: 5630,
+    cost: 1200,
+    roi: 150.8,
+  },
+  {
+    id: '4',
+    campaign: 'Product Launch - Sneakers',
+    status: 'Active',
+    clicks: 15670,
+    cost: 3200,
+    roi: 410.2,
+  },
+  {
+    id: '5',
+    campaign: 'Holiday Shopping Guide',
+    status: 'Active',
+    clicks: 9840,
+    cost: 2100,
+    roi: 245.7,
+  },
+  {
+    id: '6',
+    campaign: 'Mobile App Download',
+    status: 'Draft',
+    clicks: 0,
+    cost: 0,
+    roi: 0,
+  },
+  {
+    id: '7',
+    campaign: 'Valentine\'s Day Special',
+    status: 'Paused',
+    clicks: 7230,
+    cost: 1650,
+    roi: 189.4,
+  },
+  {
+    id: '8',
+    campaign: 'Spring Collection 2024',
+    status: 'Active',
+    clicks: 11280,
+    cost: 2450,
+    roi: 295.1,
+  },
+  {
+    id: '9',
+    campaign: 'Customer Retention Email',
+    status: 'Active',
+    clicks: 4560,
+    cost: 850,
+    roi: 180.9,
+  },
+  {
+    id: '10',
+    campaign: 'Influencer Collaboration',
+    status: 'Active',
+    clicks: 6890,
+    cost: 3500,
+    roi: 125.3,
+  },
+  {
+    id: '11',
+    campaign: 'Back to School 2024',
+    status: 'Draft',
+    clicks: 0,
+    cost: 0,
+    roi: 0,
+  },
+  {
+    id: '12',
+    campaign: 'Loyalty Program Launch',
+    status: 'Active',
+    clicks: 8750,
+    cost: 1800,
+    roi: 260.4,
+  },
+  {
+    id: '13',
+    campaign: 'Flash Sale Weekend',
+    status: 'Paused',
+    clicks: 13420,
+    cost: 2900,
+    roi: 380.7,
+  },
+  {
+    id: '14',
+    campaign: 'Retargeting Campaign',
+    status: 'Active',
+    clicks: 5940,
+    cost: 1350,
+    roi: 220.8,
+  },
+  {
+    id: '15',
+    campaign: 'Video Ad Campaign',
+    status: 'Active',
+    clicks: 10560,
+    cost: 4200,
+    roi: 165.2,
+  },
 ];

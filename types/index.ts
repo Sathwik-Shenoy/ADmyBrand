@@ -41,6 +41,15 @@ export interface TrafficSource {
   color: string;
 }
 
+export interface CampaignTableRow {
+  id: string;
+  campaign: string;
+  status: 'Active' | 'Paused' | 'Draft';
+  clicks: number;
+  cost: number;
+  roi: number;
+}
+
 export interface NavItem {
   title: string;
   href: string;
