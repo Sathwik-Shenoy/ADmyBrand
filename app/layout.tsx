@@ -40,15 +40,39 @@ export default function RootLayout({
             <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="container flex h-14 max-w-screen-2xl items-center">
                 <div className="mr-4 hidden md:flex">
-                  <span className="hidden font-bold sm:inline-block">
-                    AdMyBrand
-                  </span>
+                  <a href="/" className="mr-6 flex items-center space-x-2">
+                    <span className="hidden font-bold sm:inline-block">
+                      AdMyBrand
+                    </span>
+                  </a>
+                  <nav className="flex items-center space-x-6 text-sm font-medium">
+                    <a
+                      href="/dashboard"
+                      className="transition-colors hover:text-foreground/80 text-foreground"
+                    >
+                      Dashboard
+                    </a>
+                    <a
+                      href="/analytics"
+                      className="transition-colors hover:text-foreground/80 text-foreground/60"
+                    >
+                      Analytics
+                    </a>
+                    <a
+                      href="/campaigns"
+                      className="transition-colors hover:text-foreground/80 text-foreground/60"
+                    >
+                      Campaigns
+                    </a>
+                  </nav>
                 </div>
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                   <div className="w-full flex-1 md:w-auto md:flex-none">
-                    <span className="inline-block font-bold md:hidden">
-                      AdMyBrand
-                    </span>
+                    <a href="/" className="flex items-center space-x-2">
+                      <span className="inline-block font-bold md:hidden">
+                        AdMyBrand
+                      </span>
+                    </a>
                   </div>
                   <nav className="flex items-center">
                     <ThemeToggle />
