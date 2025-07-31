@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { CSVLink } from 'react-csv';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Download, Search } from 'lucide-react';
 import { CampaignTableRow } from '@/types';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface CampaignDataTableProps {
   data: CampaignTableRow[];
@@ -32,14 +33,11 @@ const StatusBadge = ({ status }: { status: CampaignTableRow['status'] }) => {
 
 export function CampaignDataTable({ data, isLoading = false, className }: CampaignDataTableProps) {
   const [filterText, setFilterText] = useState('');
-  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const isMobile = useIsMobile();
 
-  // Check if mobile on mount and resize
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   // Filter data based on search text
@@ -87,7 +85,6 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       name: 'Campaign',
       selector: (row: CampaignTableRow) => row.campaign,
       sortable: true,
-      minWidth: '200px',
       cell: (row: CampaignTableRow) => (
         <div className="py-2">
           <div className="font-medium text-foreground">{row.campaign}</div>
@@ -98,14 +95,12 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       name: 'Status',
       selector: (row: CampaignTableRow) => row.status,
       sortable: true,
-      width: '120px',
       cell: (row: CampaignTableRow) => <StatusBadge status={row.status} />,
     },
     {
       name: 'Clicks',
       selector: (row: CampaignTableRow) => row.clicks,
       sortable: true,
-      width: '100px',
       cell: (row: CampaignTableRow) => (
         <span className="font-mono text-foreground">
           {row.clicks.toLocaleString()}
@@ -116,7 +111,6 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       name: 'Cost',
       selector: (row: CampaignTableRow) => row.cost,
       sortable: true,
-      width: '100px',
       cell: (row: CampaignTableRow) => (
         <span className="font-mono text-foreground">
           ${row.cost.toLocaleString()}
@@ -127,7 +121,6 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       name: 'ROI (%)',
       selector: (row: CampaignTableRow) => row.roi,
       sortable: true,
-      width: '100px',
       cell: (row: CampaignTableRow) => (
         <span className={`font-mono font-medium ${
           row.roi > 200 
@@ -263,8 +256,8 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
               <div className="h-10 w-full sm:w-80 bg-muted animate-pulse rounded" />
               <div className="h-10 w-full sm:w-32 bg-muted animate-pulse rounded" />
             </div>
-            {[...Array(isMobile ? 6 : 10)].map((_, i) => (
-              <div key={i} className={`${isMobile ? 'h-20' : 'h-16'} bg-muted animate-pulse rounded`} />
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-16 bg-muted animate-pulse rounded" />
             ))}
           </div>
         </CardContent>
@@ -283,21 +276,30 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       <CardContent>
         <FilterComponent />
         <div className="rounded-lg border overflow-hidden">
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            paginationPerPage={isMobile ? 5 : 10}
-            paginationRowsPerPageOptions={isMobile ? [5, 10, 15] : [10, 20, 30, 50]}
-            highlightOnHover
-            responsive
-            customStyles={customStyles}
-            noDataComponent={
-              <div className="py-12 text-center">
-                <p className="text-muted-foreground text-sm">No campaigns found</p>
-              </div>
-            }
-          />
+          {!mounted ? (
+            // Show loading skeleton until mounted to prevent hydration mismatch
+            <div className="space-y-4 p-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="h-16 bg-muted animate-pulse rounded" />
+              ))}
+            </div>
+          ) : (
+            <DataTable
+              columns={columns}
+              data={filteredItems}
+              pagination
+              paginationPerPage={isMobile ? 5 : 10}
+              paginationRowsPerPageOptions={isMobile ? [5, 10, 15] : [10, 20, 30, 50]}
+              highlightOnHover
+              responsive
+              customStyles={customStyles}
+              noDataComponent={
+                <div className="py-12 text-center">
+                  <p className="text-muted-foreground text-sm">No campaigns found</p>
+                </div>
+              }
+            />
+          )}
         </div>
       </CardContent>
     </Card>

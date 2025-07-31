@@ -12,7 +12,7 @@ import { MetricCardsGrid } from '@/components/dashboard/MetricCard';
 import { LineChart } from '@/components/dashboard/LineChart';
 import { BarChart } from '@/components/dashboard/BarChart';
 import { DonutChart } from '@/components/dashboard/DonutChart';
-import { CampaignDataTable } from '@/components/dashboard/DataTableMobile';
+import { CampaignDataTable } from '@/components/dashboard/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
