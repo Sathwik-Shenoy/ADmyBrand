@@ -119,6 +119,8 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
                   left: 10,
                   bottom: 5,
                 }}
+                role="img"
+                aria-label="Revenue trend chart showing daily comparison for the last 30 days"
               >
                 <CartesianGrid 
                   strokeDasharray="3 3" 

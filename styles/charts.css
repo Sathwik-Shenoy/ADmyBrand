@@ -1,0 +1,32 @@
+/* Enhanced animations and performance optimizations */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Optimize chart animations for better performance */
+.chart-container {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Smooth transitions for theme switching */
+.chart-element {
+  transition: stroke 0.2s ease, fill 0.2s ease;
+}
+
+/* Improve text rendering in charts */
+.chart-text {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .chart-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
