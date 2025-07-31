@@ -124,34 +124,49 @@ export function BarChart({ data, isLoading = false, className }: BarChartProps) 
                   bottom: 5,
                 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke="hsl(var(--border))"
+                  opacity={0.3}
+                />
                 <XAxis
                   dataKey="name"
-                  className="text-xs sm:text-sm text-muted-foreground"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 10 }}
+                  tick={{ 
+                    fontSize: 10, 
+                    fill: 'hsl(var(--muted-foreground))' 
+                  }}
                 />
                 <YAxis
                   yAxisId="left"
                   orientation="left"
                   tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-                  className="text-xs sm:text-sm text-muted-foreground"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 9 }}
+                  tick={{ 
+                    fontSize: 9, 
+                    fill: 'hsl(var(--muted-foreground))' 
+                  }}
                 />
                 <YAxis
                   yAxisId="right"
                   orientation="right"
                   tickFormatter={(value) => `$${value}`}
-                  className="text-xs sm:text-sm text-muted-foreground"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 9 }}
+                  tick={{ 
+                    fontSize: 9, 
+                    fill: 'hsl(var(--muted-foreground))' 
+                  }}
                 />
                 <Tooltip content={<CustomBarTooltip />} />
-                <Legend wrapperStyle={{ fontSize: '10px' }} />
+                <Legend 
+                  wrapperStyle={{ 
+                    fontSize: '10px',
+                    color: 'hsl(var(--foreground))'
+                  }} 
+                />
                 <Bar
                   yAxisId="left"
                   dataKey="impressions"

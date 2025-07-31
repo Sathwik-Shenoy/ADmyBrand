@@ -120,7 +120,11 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
                   bottom: 5,
                 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke="hsl(var(--border))"
+                  opacity={0.3}
+                />
                 <XAxis
                   dataKey="date"
                   tickFormatter={(value) => 
@@ -129,27 +133,47 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
                       day: 'numeric' 
                     })
                   }
-                  className="text-xs sm:text-sm text-muted-foreground"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 10 }}
+                  tick={{ 
+                    fontSize: 10, 
+                    fill: 'hsl(var(--muted-foreground))' 
+                  }}
                 />
                 <YAxis
                   tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                  className="text-xs sm:text-sm text-muted-foreground"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 10 }}
+                  tick={{ 
+                    fontSize: 10, 
+                    fill: 'hsl(var(--muted-foreground))' 
+                  }}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend wrapperStyle={{ fontSize: '11px' }} />
+                <Legend 
+                  wrapperStyle={{ 
+                    fontSize: '11px',
+                    color: 'hsl(var(--foreground))'
+                  }} 
+                />
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 3 }}
-                  activeDot={{ r: 5, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
+                  stroke="#3b82f6"
+                  strokeWidth={3}
+                  dot={{ 
+                    fill: "#3b82f6", 
+                    strokeWidth: 2, 
+                    r: 4,
+                    stroke: "#ffffff",
+                    strokeOpacity: 0.8
+                  }}
+                  activeDot={{ 
+                    r: 6, 
+                    stroke: "#3b82f6", 
+                    strokeWidth: 3,
+                    fill: "#ffffff"
+                  }}
                   name="Current Period"
                 />
                 <Line
@@ -157,8 +181,13 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
                   dataKey="previousRevenue"
                   stroke="hsl(var(--muted-foreground))"
                   strokeWidth={2}
-                  strokeDasharray="5 5"
-                  dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 2 }}
+                  strokeDasharray="8 4"
+                  dot={{ 
+                    fill: "hsl(var(--muted-foreground))", 
+                    strokeWidth: 2, 
+                    r: 3,
+                    opacity: 0.7
+                  }}
                   name="Previous Period"
                 />
               </RechartsLineChart>

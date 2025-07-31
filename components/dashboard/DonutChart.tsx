@@ -196,8 +196,8 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
                   <Cell
                     key={`cell-${index}`}
                     fill={entry.color}
-                    stroke={activeIndex === index ? 'hsl(var(--background))' : 'none'}
-                    strokeWidth={activeIndex === index ? 2 : 0}
+                    stroke={activeIndex === index ? 'hsl(var(--background))' : 'hsl(var(--background))'}
+                    strokeWidth={activeIndex === index ? 3 : 1}
                     style={{
                       filter: activeIndex === index ? 'brightness(1.1)' : 'none',
                       transform: activeIndex === index ? 'scale(1.05)' : 'scale(1)',
