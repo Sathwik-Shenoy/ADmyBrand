@@ -11,27 +11,53 @@ interface MetricCardProps {
   progress: number; // 0-100
   className?: string;
   style?: React.CSSProperties;
+  isLoading?: boolean;
 }
 
-export function MetricCard({ title, value, delta, progress, className, style }: MetricCardProps) {
+export function MetricCard({ title, value, delta, progress, className, style, isLoading = false }: MetricCardProps) {
   const [animatedProgress, setAnimatedProgress] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(false);
   const isPositive = delta >= 0;
   
   // Animate progress on mount with intersection observer
   React.useEffect(() => {
-    setIsVisible(true);
-    const timer = setTimeout(() => {
-      setAnimatedProgress(progress);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, [progress]);
+    if (!isLoading) {
+      setIsVisible(true);
+      const timer = setTimeout(() => {
+        setAnimatedProgress(progress);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [progress, isLoading]);
 
   // Calculate stroke properties for circular progress
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const strokeDasharray = circumference;
   const strokeDashoffset = circumference - (animatedProgress / 100) * circumference;
+
+  if (isLoading) {
+    return (
+      <Card className={cn("relative overflow-hidden", className)} style={style}>
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between h-full">
+            <div className="space-y-3 flex-1">
+              <div className="h-4 w-20 bg-muted animate-pulse rounded" />
+              <div className="space-y-2">
+                <div className="h-8 w-24 bg-muted animate-pulse rounded" />
+                <div className="flex items-center space-x-2">
+                  <div className="h-6 w-16 bg-muted animate-pulse rounded-full" />
+                </div>
+              </div>
+            </div>
+            <div className="flex-shrink-0 ml-4">
+              <div className="h-16 w-16 bg-muted animate-pulse rounded-full" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card 
@@ -153,9 +179,10 @@ interface MetricCardsGridProps {
     progress: number;
   }>;
   className?: string;
+  isLoading?: boolean;
 }
 
-export function MetricCardsGrid({ metrics, className }: MetricCardsGridProps) {
+export function MetricCardsGrid({ metrics, className, isLoading = false }: MetricCardsGridProps) {
   return (
     <div 
       className={cn(
@@ -170,6 +197,7 @@ export function MetricCardsGrid({ metrics, className }: MetricCardsGridProps) {
           value={metric.value}
           delta={metric.delta}
           progress={metric.progress}
+          isLoading={isLoading}
           className="animate-in fade-in-0 slide-in-from-bottom-8"
           style={{
             animationDelay: `${index * 150}ms`,

@@ -1,3 +1,5 @@
+'use client';
+
 import { 
   mockDashboardStats, 
   mockUsers, 
@@ -15,27 +17,102 @@ import { DonutChart } from '@/components/dashboard/DonutChart';
 import { CampaignDataTable } from '@/components/dashboard/DataTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { RefreshCw } from 'lucide-react';
+import { SkeletonCard, SkeletonChart, SkeletonTable } from '@/components/ui/skeleton-components';
+import { useLoading } from '@/contexts/LoadingContext';
 
 export default function DashboardPage() {
+  const { isInitialLoading, isChartRefreshing, refreshCharts } = useLoading();
+
+  if (isInitialLoading) {
+    return (
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+        <div className="space-y-4 sm:space-y-8">
+          {/* Header skeleton */}
+          <div className="space-y-4">
+            <div className="h-8 w-48 bg-muted animate-pulse rounded" />
+            <div className="h-4 w-64 bg-muted animate-pulse rounded" />
+          </div>
+          
+          {/* Metric cards skeleton */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+          
+          {/* Charts skeleton */}
+          <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+            <div className="lg:col-span-2">
+              <SkeletonChart />
+            </div>
+            <SkeletonChart />
+            <SkeletonChart />
+          </div>
+          
+          {/* Stats card skeleton */}
+          <SkeletonCard />
+          
+          {/* Table skeleton */}
+          <SkeletonTable />
+          
+          {/* Users card skeleton */}
+          <SkeletonCard />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
       <div className="space-y-4 sm:space-y-8">
-        <DashboardHeader />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+          <DashboardHeader />
+          <Button 
+            onClick={refreshCharts}
+            disabled={isChartRefreshing}
+            variant="outline"
+            size="sm"
+            className="w-full sm:w-auto"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isChartRefreshing ? 'animate-spin' : ''}`} />
+            Refresh Charts
+          </Button>
+        </div>
         
         {/* Animated Metric Cards */}
-        <MetricCardsGrid metrics={mockMetricCards} />
+        <MetricCardsGrid 
+          metrics={mockMetricCards}
+          isLoading={isChartRefreshing}
+        />
         
         {/* Analytics Charts - Mobile: Single column, Desktop: Grid */}
         <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-          <LineChart data={mockRevenueData} className="w-full lg:col-span-2" />
-          <BarChart data={mockCampaignData} className="w-full" />
-          <DonutChart data={mockTrafficSources} className="w-full" />
+          <LineChart 
+            data={mockRevenueData} 
+            className="w-full lg:col-span-2"
+            isLoading={isChartRefreshing}
+          />
+          <BarChart 
+            data={mockCampaignData} 
+            className="w-full"
+            isLoading={isChartRefreshing}
+          />
+          <DonutChart 
+            data={mockTrafficSources} 
+            className="w-full"
+            isLoading={isChartRefreshing}
+          />
         </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
 
         {/* Campaign Data Table */}
-        <CampaignDataTable data={mockCampaignTableData} />
+        <CampaignDataTable 
+          data={mockCampaignTableData}
+          isLoading={isChartRefreshing}
+        />
 
         {/* Users Table */}
         <Card>

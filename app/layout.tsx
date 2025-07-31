@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { MobileNavigation } from '@/components/ui/mobile-navigation';
+import { LoadingProvider } from '@/contexts/LoadingContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,11 +36,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            <MobileNavigation />
-            {/* Main content */}
-            <main className="flex-1">{children}</main>
-          </div>
+          <LoadingProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <MobileNavigation />
+              {/* Main content */}
+              <main className="flex-1">{children}</main>
+            </div>
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>
