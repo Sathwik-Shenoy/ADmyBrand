@@ -84,12 +84,12 @@ export function BarChart({ data, isLoading = false, className }: BarChartProps) 
   if (isLoading) {
     return (
       <Card className={className}>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-32" />
+        <CardHeader className="pb-2">
+          <Skeleton className="h-5 w-36 sm:h-6 sm:w-48" />
+          <Skeleton className="h-3 w-48 sm:h-4 sm:w-64" />
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-[350px] w-full" />
+          <Skeleton className="h-[250px] sm:h-[350px] w-full" />
         </CardContent>
       </Card>
     );
@@ -97,80 +97,84 @@ export function BarChart({ data, isLoading = false, className }: BarChartProps) 
 
   return (
     <Card className={className}>
-      <CardHeader>
-        <CardTitle>Campaign Performance</CardTitle>
-        <CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base sm:text-lg">Campaign Performance</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">
           Marketing campaign metrics and conversion data
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[350px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <RechartsBarChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis
-                dataKey="name"
-                className="text-sm text-muted-foreground"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-              />
-              <YAxis
-                yAxisId="left"
-                orientation="left"
-                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-                className="text-sm text-muted-foreground"
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                tickFormatter={(value) => `$${value}`}
-                className="text-sm text-muted-foreground"
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomBarTooltip />} />
-              <Legend />
-              <Bar
-                yAxisId="left"
-                dataKey="impressions"
-                fill="hsl(var(--chart-1))"
-                name="Impressions"
-                radius={[2, 2, 0, 0]}
-              />
-              <Bar
-                yAxisId="left"
-                dataKey="clicks"
-                fill="hsl(var(--chart-2))"
-                name="Clicks"
-                radius={[2, 2, 0, 0]}
-              />
-              <Bar
-                yAxisId="left"
-                dataKey="conversions"
-                fill="hsl(var(--chart-3))"
-                name="Conversions"
-                radius={[2, 2, 0, 0]}
-              />
-              <Bar
-                yAxisId="right"
-                dataKey="cost"
-                fill="hsl(var(--chart-4))"
-                name="Cost ($)"
-                radius={[2, 2, 0, 0]}
-              />
-            </RechartsBarChart>
-          </ResponsiveContainer>
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[500px] sm:min-w-0 h-[250px] sm:h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsBarChart
+                data={data}
+                margin={{
+                  top: 20,
+                  right: 10,
+                  left: 10,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <XAxis
+                  dataKey="name"
+                  className="text-xs sm:text-sm text-muted-foreground"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
+                <YAxis
+                  yAxisId="left"
+                  orientation="left"
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  className="text-xs sm:text-sm text-muted-foreground"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 9 }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  tickFormatter={(value) => `$${value}`}
+                  className="text-xs sm:text-sm text-muted-foreground"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 9 }}
+                />
+                <Tooltip content={<CustomBarTooltip />} />
+                <Legend wrapperStyle={{ fontSize: '10px' }} />
+                <Bar
+                  yAxisId="left"
+                  dataKey="impressions"
+                  fill="hsl(var(--chart-1))"
+                  name="Impressions"
+                  radius={[2, 2, 0, 0]}
+                />
+                <Bar
+                  yAxisId="left"
+                  dataKey="clicks"
+                  fill="hsl(var(--chart-2))"
+                  name="Clicks"
+                  radius={[2, 2, 0, 0]}
+                />
+                <Bar
+                  yAxisId="left"
+                  dataKey="conversions"
+                  fill="hsl(var(--chart-3))"
+                  name="Conversions"
+                  radius={[2, 2, 0, 0]}
+                />
+                <Bar
+                  yAxisId="right"
+                  dataKey="cost"
+                  fill="hsl(var(--chart-4))"
+                  name="Cost ($)"
+                  radius={[2, 2, 0, 0]}
+                />
+              </RechartsBarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </CardContent>
     </Card>

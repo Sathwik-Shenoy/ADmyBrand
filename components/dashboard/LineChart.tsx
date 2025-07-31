@@ -79,12 +79,12 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
   if (isLoading) {
     return (
       <Card className={className}>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-32" />
+        <CardHeader className="pb-2">
+          <Skeleton className="h-5 w-32 sm:h-6 sm:w-48" />
+          <Skeleton className="h-3 w-48 sm:h-4 sm:w-64" />
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-[300px] w-full" />
+          <Skeleton className="h-[250px] sm:h-[300px] w-full" />
         </CardContent>
       </Card>
     );
@@ -92,65 +92,70 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
 
   return (
     <Card className={className}>
-      <CardHeader>
-        <CardTitle>Revenue Trend</CardTitle>
-        <CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base sm:text-lg">Revenue Trend</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">
           Daily revenue comparison for the last 30 days
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <RechartsLineChart
-              data={data}
-              margin={{
-                top: 5,
-                right: 10,
-                left: 10,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis
-                dataKey="date"
-                tickFormatter={(value) => 
-                  new Date(value).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })
-                }
-                className="text-sm text-muted-foreground"
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                className="text-sm text-muted-foreground"
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="revenue"
-                stroke="hsl(var(--primary))"
-                strokeWidth={3}
-                dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
-                name="Current Period"
-              />
-              <Line
-                type="monotone"
-                dataKey="previousRevenue"
-                stroke="hsl(var(--muted-foreground))"
-                strokeWidth={2}
-                strokeDasharray="5 5"
-                dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 3 }}
-                name="Previous Period"
-              />
-            </RechartsLineChart>
-          </ResponsiveContainer>
+        {/* Mobile: Horizontal scroll container */}
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[500px] sm:min-w-0 h-[250px] sm:h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsLineChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: 10,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={(value) => 
+                    new Date(value).toLocaleDateString('en-US', { 
+                      month: 'short', 
+                      day: 'numeric' 
+                    })
+                  }
+                  className="text-xs sm:text-sm text-muted-foreground"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
+                <YAxis
+                  tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                  className="text-xs sm:text-sm text-muted-foreground"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: '11px' }} />
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, stroke: "hsl(var(--primary))", strokeWidth: 2 }}
+                  name="Current Period"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="previousRevenue"
+                  stroke="hsl(var(--muted-foreground))"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={{ fill: "hsl(var(--muted-foreground))", strokeWidth: 2, r: 2 }}
+                  name="Previous Period"
+                />
+              </RechartsLineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </CardContent>
     </Card>

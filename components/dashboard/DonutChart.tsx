@@ -141,16 +141,16 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
   if (isLoading) {
     return (
       <Card className={className}>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-32" />
+        <CardHeader className="pb-2">
+          <Skeleton className="h-5 w-32 sm:h-6 sm:w-36" />
+          <Skeleton className="h-3 w-48 sm:h-4 sm:w-56" />
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center space-y-4">
-            <Skeleton className="h-[250px] w-[250px] rounded-full" />
-            <div className="flex flex-wrap justify-center gap-4">
+            <Skeleton className="h-[200px] w-[200px] sm:h-[250px] sm:w-[250px] rounded-full" />
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               {[1, 2, 3, 4, 5].map((i) => (
-                <Skeleton key={i} className="h-4 w-20" />
+                <Skeleton key={i} className="h-3 w-16 sm:h-4 sm:w-20" />
               ))}
             </div>
           </div>
@@ -161,14 +161,14 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
 
   return (
     <Card className={className}>
-      <CardHeader>
-        <CardTitle>Traffic Sources</CardTitle>
-        <CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base sm:text-lg">Traffic Sources</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">
           Website traffic breakdown by source
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[350px] w-full">
+        <div className="h-[280px] sm:h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -177,8 +177,8 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
                 cy="45%"
                 labelLine={false}
                 label={renderCustomizedLabel}
-                outerRadius={100}
-                innerRadius={60}
+                outerRadius={80}
+                innerRadius={50}
                 fill="#8884d8"
                 dataKey="value"
                 onMouseEnter={onPieEnter}
@@ -189,7 +189,7 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
                     key={`cell-${index}`}
                     fill={entry.color}
                     stroke={activeIndex === index ? 'hsl(var(--background))' : 'none'}
-                    strokeWidth={activeIndex === index ? 3 : 0}
+                    strokeWidth={activeIndex === index ? 2 : 0}
                     style={{
                       filter: activeIndex === index ? 'brightness(1.1)' : 'none',
                       transform: activeIndex === index ? 'scale(1.05)' : 'scale(1)',
@@ -206,17 +206,17 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
         </div>
         
         {/* Summary Stats */}
-        <div className="mt-4 pt-4 border-t">
-          <div className="grid grid-cols-2 gap-4 text-center">
+        <div className="mt-3 pt-3 border-t sm:mt-4 sm:pt-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 text-center">
             <div>
-              <p className="text-sm text-muted-foreground">Total Sessions</p>
-              <p className="text-lg font-bold">
+              <p className="text-xs sm:text-sm text-muted-foreground">Total Sessions</p>
+              <p className="text-base sm:text-lg font-bold">
                 {(data.reduce((sum, item) => sum + (item.value * 100), 0)).toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Top Source</p>
-              <p className="text-lg font-bold text-primary">
+              <p className="text-xs sm:text-sm text-muted-foreground">Top Source</p>
+              <p className="text-base sm:text-lg font-bold text-primary">
                 {data.reduce((prev, current) => (prev.value > current.value) ? prev : current).name}
               </p>
             </div>

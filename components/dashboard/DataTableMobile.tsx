@@ -24,7 +24,7 @@ const StatusBadge = ({ status }: { status: CampaignTableRow['status'] }) => {
   };
 
   return (
-    <Badge className={`${variants[status]} border-0`}>
+    <Badge className={`${variants[status]} border-0 text-xs`}>
       {status}
     </Badge>
   );
@@ -32,6 +32,15 @@ const StatusBadge = ({ status }: { status: CampaignTableRow['status'] }) => {
 
 export function CampaignDataTable({ data, isLoading = false, className }: CampaignDataTableProps) {
   const [filterText, setFilterText] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile on mount and resize
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filter data based on search text
   const filteredItems = useMemo(() => {
@@ -42,8 +51,38 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
     );
   }, [data, filterText]);
 
-  // Define table columns
-  const columns = [
+  // Mobile columns (compact view for small screens)
+  const mobileColumns = [
+    {
+      name: 'Campaign Details',
+      selector: (row: CampaignTableRow) => row.campaign,
+      sortable: true,
+      cell: (row: CampaignTableRow) => (
+        <div className="py-3 px-2">
+          <div className="font-medium text-foreground text-sm mb-2">{row.campaign}</div>
+          <div className="flex items-center justify-between mb-2">
+            <StatusBadge status={row.status} />
+            <span className={`text-xs font-bold ${
+              row.roi > 200 
+                ? 'text-green-600 dark:text-green-400' 
+                : row.roi > 100 
+                ? 'text-yellow-600 dark:text-yellow-400' 
+                : 'text-red-600 dark:text-red-400'
+            }`}>
+              {row.roi.toFixed(1)}% ROI
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span className="font-mono">{row.clicks.toLocaleString()} clicks</span>
+            <span className="font-mono">${row.cost.toLocaleString()}</span>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  // Desktop columns (full columns for larger screens)
+  const desktopColumns = [
     {
       name: 'Campaign',
       selector: (row: CampaignTableRow) => row.campaign,
@@ -103,6 +142,8 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
     },
   ];
 
+  const columns = isMobile ? mobileColumns : desktopColumns;
+
   // CSV export data
   const csvData = filteredItems.map(item => ({
     Campaign: item.campaign,
@@ -132,23 +173,23 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
       style: {
         backgroundColor: 'transparent',
         borderBottom: '1px solid hsl(var(--border))',
-        minHeight: '48px',
+        minHeight: isMobile ? '40px' : '48px',
       },
     },
     headCells: {
       style: {
         color: 'hsl(var(--foreground))',
-        fontSize: '14px',
+        fontSize: isMobile ? '12px' : '14px',
         fontWeight: '600',
-        paddingLeft: '16px',
-        paddingRight: '16px',
+        paddingLeft: isMobile ? '8px' : '16px',
+        paddingRight: isMobile ? '8px' : '16px',
       },
     },
     rows: {
       style: {
         backgroundColor: 'transparent',
         borderBottom: '1px solid hsl(var(--border))',
-        minHeight: '64px',
+        minHeight: isMobile ? '80px' : '64px',
         '&:hover': {
           backgroundColor: 'hsl(var(--muted))',
           cursor: 'pointer',
@@ -163,9 +204,9 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
     cells: {
       style: {
         color: 'hsl(var(--foreground))',
-        fontSize: '14px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
+        fontSize: isMobile ? '12px' : '14px',
+        paddingLeft: isMobile ? '8px' : '16px',
+        paddingRight: isMobile ? '8px' : '16px',
       },
     },
     pagination: {
@@ -173,10 +214,12 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
         backgroundColor: 'transparent',
         borderTop: '1px solid hsl(var(--border))',
         color: 'hsl(var(--foreground))',
+        fontSize: isMobile ? '12px' : '14px',
       },
       pageButtonsStyle: {
         backgroundColor: 'transparent',
         color: 'hsl(var(--foreground))',
+        fontSize: isMobile ? '12px' : '14px',
         '&:hover': {
           backgroundColor: 'hsl(var(--muted))',
         },
@@ -185,22 +228,22 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
   };
 
   const FilterComponent = () => (
-    <div className="flex items-center space-x-4 mb-4">
-      <div className="relative flex-1 max-w-sm">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-4">
+      <div className="relative flex-1 max-w-full sm:max-w-sm">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
           placeholder="Search campaigns..."
           value={filterText}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
-          className="pl-9"
+          className="pl-9 text-sm"
         />
       </div>
       <CSVLink
         data={csvData}
         filename={`campaigns-${new Date().toISOString().split('T')[0]}.csv`}
-        className="inline-flex"
+        className="inline-flex w-full sm:w-auto"
       >
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="w-full sm:w-auto text-sm">
           <Download className="h-4 w-4 mr-2" />
           Export CSV
         </Button>
@@ -211,17 +254,17 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
   if (isLoading) {
     return (
       <Card className={className}>
-        <CardHeader>
-          <CardTitle>Campaign Performance</CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base sm:text-lg">Campaign Performance</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="h-10 w-80 bg-muted animate-pulse rounded" />
-              <div className="h-10 w-32 bg-muted animate-pulse rounded" />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <div className="h-10 w-full sm:w-80 bg-muted animate-pulse rounded" />
+              <div className="h-10 w-full sm:w-32 bg-muted animate-pulse rounded" />
             </div>
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="h-16 bg-muted animate-pulse rounded" />
+            {[...Array(isMobile ? 6 : 10)].map((_, i) => (
+              <div key={i} className={`${isMobile ? 'h-20' : 'h-16'} bg-muted animate-pulse rounded`} />
             ))}
           </div>
         </CardContent>
@@ -231,9 +274,9 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
 
   return (
     <Card className={className}>
-      <CardHeader>
-        <CardTitle>Campaign Performance</CardTitle>
-        <p className="text-sm text-muted-foreground">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base sm:text-lg">Campaign Performance</CardTitle>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Track and analyze your campaign metrics with sorting and filtering capabilities.
         </p>
       </CardHeader>
@@ -244,14 +287,14 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
             columns={columns}
             data={filteredItems}
             pagination
-            paginationPerPage={10}
-            paginationRowsPerPageOptions={[10, 20, 30, 50]}
+            paginationPerPage={isMobile ? 5 : 10}
+            paginationRowsPerPageOptions={isMobile ? [5, 10, 15] : [10, 20, 30, 50]}
             highlightOnHover
             responsive
             customStyles={customStyles}
             noDataComponent={
               <div className="py-12 text-center">
-                <p className="text-muted-foreground">No campaigns found</p>
+                <p className="text-muted-foreground text-sm">No campaigns found</p>
               </div>
             }
           />

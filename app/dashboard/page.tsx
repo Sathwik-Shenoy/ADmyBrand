@@ -12,24 +12,24 @@ import { MetricCardsGrid } from '@/components/dashboard/MetricCard';
 import { LineChart } from '@/components/dashboard/LineChart';
 import { BarChart } from '@/components/dashboard/BarChart';
 import { DonutChart } from '@/components/dashboard/DonutChart';
-import { CampaignDataTable } from '@/components/dashboard/DataTable';
+import { CampaignDataTable } from '@/components/dashboard/DataTableMobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="space-y-8">
+    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+      <div className="space-y-4 sm:space-y-8">
         <DashboardHeader />
         
         {/* Animated Metric Cards */}
         <MetricCardsGrid metrics={mockMetricCards} />
         
-        {/* Analytics Charts */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <LineChart data={mockRevenueData} className="lg:col-span-2" />
-          <BarChart data={mockCampaignData} />
-          <DonutChart data={mockTrafficSources} />
+        {/* Analytics Charts - Mobile: Single column, Desktop: Grid */}
+        <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+          <LineChart data={mockRevenueData} className="w-full lg:col-span-2" />
+          <BarChart data={mockCampaignData} className="w-full" />
+          <DonutChart data={mockTrafficSources} className="w-full" />
         </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
