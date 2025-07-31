@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function SkeletonCard() {
   return (
-    <Card className="w-full">
+    <Card className="w-full" role="status" aria-label="Loading content">
       <CardHeader className="pb-3">
         <Skeleton className="h-5 w-48" />
         <Skeleton className="h-4 w-32" />
@@ -15,17 +15,17 @@ export function SkeletonCard() {
           <Skeleton className="h-8 w-24" />
           <div className="flex items-center space-x-2">
             <Skeleton className="h-4 w-16" />
-            <Skeleton className="h-4 w-12" />
           </div>
         </div>
       </CardContent>
+      <span className="sr-only">Loading...</span>
     </Card>
   );
 }
 
 export function SkeletonChart() {
   return (
-    <Card className="w-full">
+    <Card className="w-full" role="status" aria-label="Loading chart">
       <CardHeader className="pb-3">
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-4 w-56" />
@@ -65,13 +65,14 @@ export function SkeletonChart() {
           </div>
         </div>
       </CardContent>
+      <span className="sr-only">Loading chart...</span>
     </Card>
   );
 }
 
 export function SkeletonTable() {
   return (
-    <Card className="w-full">
+    <Card className="w-full" role="status" aria-label="Loading table">
       <CardHeader className="pb-3">
         <Skeleton className="h-5 w-48" />
         <Skeleton className="h-4 w-64" />
@@ -130,6 +131,7 @@ export function SkeletonTable() {
           </div>
         </div>
       </CardContent>
+      <span className="sr-only">Loading table...</span>
     </Card>
   );
 }

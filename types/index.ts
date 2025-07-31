@@ -21,6 +21,19 @@ export interface MetricCard {
   progress: number; // 0-100 for circular progress
 }
 
+// Generic loading state wrapper
+export interface LoadingState<T = any> {
+  data: T;
+  isLoading: boolean;
+  error?: string;
+}
+
+// Base component props with loading support
+export interface BaseComponentProps {
+  className?: string;
+  isLoading?: boolean;
+}
+
 export interface RevenueData {
   date: string;
   revenue: number;

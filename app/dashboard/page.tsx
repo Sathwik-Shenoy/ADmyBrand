@@ -20,6 +20,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
 import { SkeletonCard, SkeletonChart, SkeletonTable } from '@/components/ui/skeleton-components';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { useLoading } from '@/contexts/LoadingContext';
 
 export default function DashboardPage() {
@@ -89,30 +90,38 @@ export default function DashboardPage() {
         
         {/* Analytics Charts - Mobile: Single column, Desktop: Grid */}
         <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-          <LineChart 
-            data={mockRevenueData} 
-            className="w-full lg:col-span-2"
-            isLoading={isChartRefreshing}
-          />
-          <BarChart 
-            data={mockCampaignData} 
-            className="w-full"
-            isLoading={isChartRefreshing}
-          />
-          <DonutChart 
-            data={mockTrafficSources} 
-            className="w-full"
-            isLoading={isChartRefreshing}
-          />
+          <ErrorBoundary>
+            <LineChart 
+              data={mockRevenueData} 
+              className="w-full lg:col-span-2"
+              isLoading={isChartRefreshing}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <BarChart 
+              data={mockCampaignData} 
+              className="w-full"
+              isLoading={isChartRefreshing}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <DonutChart 
+              data={mockTrafficSources} 
+              className="w-full"
+              isLoading={isChartRefreshing}
+            />
+          </ErrorBoundary>
         </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
 
         {/* Campaign Data Table */}
-        <CampaignDataTable 
-          data={mockCampaignTableData}
-          isLoading={isChartRefreshing}
-        />
+        <ErrorBoundary>
+          <CampaignDataTable 
+            data={mockCampaignTableData}
+            isLoading={isChartRefreshing}
+          />
+        </ErrorBoundary>
 
         {/* Users Table */}
         <Card>

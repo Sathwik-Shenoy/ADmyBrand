@@ -1,6 +1,10 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+
+// Loading time constants
+const INITIAL_LOADING_DELAY = 1500; // 1.5 seconds
+const CHART_REFRESH_DELAY = 1000; // 1 second
 
 interface LoadingContextType {
   isInitialLoading: boolean;
@@ -19,19 +23,23 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 1500);
+    }, INITIAL_LOADING_DELAY);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const refreshCharts = async () => {
+  const refreshCharts = useCallback(async () => {
     setIsChartRefreshing(true);
     
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsChartRefreshing(false);
-  };
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, CHART_REFRESH_DELAY));
+    } catch (error) {
+      console.error('Error refreshing charts:', error);
+    } finally {
+      setIsChartRefreshing(false);
+    }
+  }, []);
 
   return (
     <LoadingContext.Provider 
