@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "name": "admybrand",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/dashboard"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_APP_NAME": "AdMyBrand",
+    "NEXT_PUBLIC_APP_VERSION": "1.0.0"
+  },
+  "functions": {
+    "app/**": {
+      "memory": 1024
+    }
+  },
+  "regions": ["iad1"],
+  "github": {
+    "autoAlias": false
+  }
+}
