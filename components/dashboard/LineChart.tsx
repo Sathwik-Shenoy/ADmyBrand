@@ -92,11 +92,19 @@ export function LineChart({ data, isLoading = false, className }: LineChartProps
 
   return (
     <Card className={className}>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base sm:text-lg">Revenue Trend</CardTitle>
-        <CardDescription className="text-xs sm:text-sm">
-          Daily revenue comparison for the last 30 days
-        </CardDescription>
+      <CardHeader className="pb-2 bg-gradient-to-r from-card to-blue-50/30 dark:to-blue-950/30 border-b border-border/50">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-base sm:text-lg font-semibold text-foreground">Revenue Trend</CardTitle>
+            <CardDescription className="text-xs sm:text-sm mt-1">
+              Daily revenue comparison for the last 30 days
+            </CardDescription>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="h-2 w-2 bg-blue-500 rounded-full animate-pulse"></div>
+            <span className="text-xs text-muted-foreground hidden sm:inline">Real-time</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         {/* Mobile: Horizontal scroll container */}

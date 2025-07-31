@@ -75,10 +75,12 @@ export default function DashboardPage() {
             disabled={isChartRefreshing}
             variant="outline"
             size="sm"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto group border-2 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isChartRefreshing ? 'animate-spin' : ''}`} />
-            Refresh Charts
+            <RefreshCw className={`h-4 w-4 mr-2 transition-transform duration-500 ${isChartRefreshing ? 'animate-spin' : 'group-hover:rotate-180'}`} />
+            <span className="font-medium">
+              {isChartRefreshing ? 'Refreshing...' : 'Refresh Charts'}
+            </span>
           </Button>
         </div>
         
@@ -89,28 +91,36 @@ export default function DashboardPage() {
         />
         
         {/* Analytics Charts - Mobile: Single column, Desktop: Grid */}
-        <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-          <ErrorBoundary>
-            <LineChart 
-              data={mockRevenueData} 
-              className="w-full lg:col-span-2"
-              isLoading={isChartRefreshing}
-            />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <BarChart 
-              data={mockCampaignData} 
-              className="w-full"
-              isLoading={isChartRefreshing}
-            />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <DonutChart 
-              data={mockTrafficSources} 
-              className="w-full"
-              isLoading={isChartRefreshing}
-            />
-          </ErrorBoundary>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Analytics Overview</h2>
+              <p className="text-muted-foreground">Visual insights into your business performance</p>
+            </div>
+          </div>
+          <div className="space-y-4 sm:space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+            <ErrorBoundary>
+              <LineChart 
+                data={mockRevenueData} 
+                className="w-full lg:col-span-2"
+                isLoading={isChartRefreshing}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <BarChart 
+                data={mockCampaignData} 
+                className="w-full"
+                isLoading={isChartRefreshing}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <DonutChart 
+                data={mockTrafficSources} 
+                className="w-full"
+                isLoading={isChartRefreshing}
+              />
+            </ErrorBoundary>
+          </div>
         </div>
         
         <DashboardStatsCard stats={mockDashboardStats} />
@@ -124,33 +134,56 @@ export default function DashboardPage() {
         </ErrorBoundary>
 
         {/* Users Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Users</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              A list of users who recently joined your application.
-            </p>
+        <Card className="border-2 hover:border-blue-200 dark:hover:border-blue-800 transition-colors duration-300">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center space-x-2">
+                  <span>Recent Users</span>
+                  <Badge variant="secondary" className="text-xs">
+                    {mockUsers.length} total
+                  </Badge>
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-2">
+                  A list of users who recently joined your application.
+                </p>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {mockUsers.map((user) => (
+            <div className="space-y-3">
+              {mockUsers.map((user, index) => (
                 <div
                   key={user.id}
-                  className="flex items-center justify-between space-x-4 rounded-lg p-4 border"
+                  className="group flex items-center justify-between space-x-4 rounded-xl p-4 border border-border/50 hover:border-blue-200 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-all duration-300 hover:shadow-md"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    animationDuration: '500ms'
+                  }}
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary">
+                    <div className="relative h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <span className="text-sm font-bold text-white">
                         {user.name.charAt(0)}
                       </span>
+                      <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 rounded-full border-2 border-background"></div>
                     </div>
                     <div>
-                      <p className="text-sm font-medium leading-none">{user.name}</p>
-                      <p className="text-sm text-muted-foreground">{user.email}</p>
+                      <p className="text-sm font-semibold leading-none group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {user.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">{user.email}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <Badge variant="outline" className="capitalize">
+                    <Badge 
+                      variant={user.role === 'admin' ? 'default' : 'outline'} 
+                      className={`capitalize font-medium ${
+                        user.role === 'admin' ? 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900 dark:text-blue-300' :
+                        user.role === 'manager' ? 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900 dark:text-purple-300' :
+                        'bg-green-100 text-green-700 border-green-200 dark:bg-green-900 dark:text-green-300'
+                      }`}
+                    >
                       {user.role}
                     </Badge>
                   </div>

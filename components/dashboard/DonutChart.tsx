@@ -161,11 +161,19 @@ export function DonutChart({ data, isLoading = false, className }: DonutChartPro
 
   return (
     <Card className={className}>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base sm:text-lg">Traffic Sources</CardTitle>
-        <CardDescription className="text-xs sm:text-sm">
-          Website traffic breakdown by source
-        </CardDescription>
+      <CardHeader className="pb-2 bg-gradient-to-r from-card to-green-50/30 dark:to-green-950/30 border-b border-border/50">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-base sm:text-lg font-semibold text-foreground">Traffic Sources</CardTitle>
+            <CardDescription className="text-xs sm:text-sm mt-1">
+              Website traffic breakdown by source
+            </CardDescription>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-xs text-muted-foreground hidden sm:inline">Live</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="h-[280px] sm:h-[350px] w-full">

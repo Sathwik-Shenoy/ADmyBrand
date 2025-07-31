@@ -97,11 +97,19 @@ export function BarChart({ data, isLoading = false, className }: BarChartProps) 
 
   return (
     <Card className={className}>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base sm:text-lg">Campaign Performance</CardTitle>
-        <CardDescription className="text-xs sm:text-sm">
-          Marketing campaign metrics and conversion data
-        </CardDescription>
+      <CardHeader className="pb-2 bg-gradient-to-r from-card to-purple-50/30 dark:to-purple-950/30 border-b border-border/50">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-base sm:text-lg font-semibold text-foreground">Campaign Performance</CardTitle>
+            <CardDescription className="text-xs sm:text-sm mt-1">
+              Marketing campaign metrics and conversion data
+            </CardDescription>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="h-2 w-2 bg-purple-500 rounded-full animate-pulse"></div>
+            <span className="text-xs text-muted-foreground hidden sm:inline">Updated</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="w-full overflow-x-auto">

@@ -267,11 +267,21 @@ export function CampaignDataTable({ data, isLoading = false, className }: Campai
 
   return (
     <Card className={className}>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base sm:text-lg">Campaign Performance</CardTitle>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Track and analyze your campaign metrics with sorting and filtering capabilities.
-        </p>
+      <CardHeader className="pb-3 bg-gradient-to-r from-card to-muted/20 border-b border-border/50">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-base sm:text-lg font-semibold text-foreground">Campaign Performance</CardTitle>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+              Track and analyze your campaign metrics with sorting and filtering capabilities.
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
+              <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-muted-foreground hidden sm:inline">Live Data</span>
+            </div>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <FilterComponent />
